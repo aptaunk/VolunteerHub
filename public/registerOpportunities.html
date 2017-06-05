@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      firebase.auth().onAuthStateChanged(function(user){
+        if (!user) {
+          alert("You are not signed in.");
+          window.location.replace("index.html");
+        } else if (!user.emailVerified) {
+          alert("You have to verify your email.");
+          window.location.replace("index.html");
+        } else {
+          firebase.database().ref("opportunities")
+          .on('value',function(snapshot){
+            snapshot.forEach(function(op){
+              $("#opportunities").append("<input type='checkbox' value='"+op.key+"'> "+op.val().description+"<br>");
+            });
+          },function(error){
+            alert("Error: "+error);
+          });
+        }
+      });
+      function registerOpportunities() {
+        var registerThis = {};
+        $("#opportunities :checked").each(function(){
+          registerThis[$(this).val()] = 0;
+        });
+        var bla = firebase.database().ref("volunteers/"+firebase.auth().currentUser.uid+"/opportunities")
+        .set(registerThis)
+        .then(function(){
+          alert("Registered Successfully");
+          window.location.replace("dashboard.html");
+        },function(error){
+          alert("Error: "+error);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Register Opportunities</p>
+    <br>
+    <form id="registerOpportunitiesForm">
+      Opportunities:<br>
+      <div id="opportunities"></div>
+      <br>
+      <input type="button" value="Submit" onclick="registerOpportunities()">
+    </form>
+
+  </body>
+
+</html>

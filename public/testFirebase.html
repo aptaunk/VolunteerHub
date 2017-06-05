@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyAkxT9uXPLIDWxpgcF2IvqDuMBqGHvhx-k",
+        authDomain: "voluneer-hub.firebaseapp.com",
+        databaseURL: "https://voluneer-hub.firebaseio.com",
+        projectId: "voluneer-hub",
+        storageBucket: "voluneer-hub.appspot.com",
+        messagingSenderId: "874289242929"
+      };
+      var myApp = firebase.initializeApp(config);
+      $(document).ready(function(){
+        alert("My app: "+myApp);
+      });
+    </script>
+
+  </head>
+
+  <body>
+
+    <span id='something'></span>
+
+  </body>
+
+</html>

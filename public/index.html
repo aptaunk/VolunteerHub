@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      $(document).ready(function(){
+        firebase.auth().onAuthStateChanged(function(user){
+          if (user) {
+            $("#notsignedin").remove();
+          } else {
+            $("#signedin").remove();
+          }
+        });
+      });
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Volunteer Hub allows volunteers to connect with volunteering opportunities.</p>
+    <p>Once registered, volunteers can log their hours.</p>
+    <p>Validated hours earn points which can be redeemed for perks.</p>
+    <br>
+    <div id="notsignedin">
+      <p><a href="signup.html">Signup</a></p>
+      <p><a href="signin.html">Sign In</a></p>
+    </div>
+    <div id="signedin">
+      <p><a href="dashboard.html">Dashboard</a></p>
+      <p><a href="signout.html">Sign Out</a></p>
+    </div>
+    <br>
+    <p><a href="createOpportunity.html">Create Opportunity</a></p>
+
+  </body>
+
+</html>

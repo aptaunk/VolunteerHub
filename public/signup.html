@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      function signup() {
+        var name = $( "#signupForm input[name='name']" ).val();
+        var email = $( "#signupForm input[name='email']" ).val();
+        var password = $( "#signupForm input[name='password']" ).val();
+        var signedUpUser;
+        firebase.auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(function(user){
+          signedUpUser = user;
+          return signedUpUser.updateProfile({
+            displayName: name
+          });
+        }).then(function() {
+          return signedUpUser.sendEmailVerification();
+        }).then(function() {
+          return firebase.auth().signOut();
+        }).then(function(){
+          alert("Success! Validate your email then sign in.");
+          window.location.replace("index.html");
+        },function(error) {
+          alert("Error: "+error);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Sign Up</p>
+    <br>
+    <form id="signupForm">
+      Name:<br>
+      <input type="text" name="name"><br><br>
+      Email:<br>
+      <input type="email" name="email"><br><br>
+      Password:<br>
+      <input type="password" name="password"><br><br>
+      <br>
+      <input type="button" value="Submit" onclick="signup()">
+    </form>
+
+  </body>
+
+</html>

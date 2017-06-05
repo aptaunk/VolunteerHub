@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      function getAnswer() {
+        $.post("https://us-central1-voluneer-hub.cloudfunctions.net/test",$("#nameForm").serialize(),function(data){
+          alert(data);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Volunteer Hub allows volunteers to connect with volunteering opportunities.</p>
+    <p>Once registered, volunteers can log their hours.</p>
+    <p>Validated hours earn points which can be redeemed for perks.</p>
+    <br>
+    <form id="nameForm">
+      Name:<br>
+      <input type="text" name="name"><br><br>
+      <input type="button" value="Submit" onclick="getAnswer()">
+    </form>
+    <br>
+    <p><span id="answer"></span></p>
+
+  </body>
+
+</html>

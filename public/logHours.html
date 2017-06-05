@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      firebase.auth().onAuthStateChanged(function(user){
+        if (!user) {
+          alert("You are not signed in.");
+          window.location.replace("index.html");
+        } else if (!user.emailVerified) {
+          alert("You have to verify your email.");
+          window.location.replace("index.html");
+        } else {
+          firebase.database().ref("volunteers/"+user.uid+"/opportunities")
+          .on('value',function(snapshot){
+            snapshot.forEach(function(child){
+              firebase.database().ref("opportunities/"+child.key)
+              .on('value',function(op){
+                $("#opportunities").append("<option value="+op.key+">"+op.val().description+"</option>");
+              },function(error){
+                alert("Error: "+error);
+              });
+            });
+          },function(error){
+            alert("Error: "+error);
+          });
+        }
+      });
+      function logHours() {
+        var opId = $('#opportunities :selected').val();
+        firebase.database().ref("volunteers/"+firebase.auth().currentUser.uid+"/opportunities/"+opId)
+        .once('value',function(snapshot){
+          var currHours = snapshot.val();
+          var newHours = $("#logHoursForm input[name='hours']").val();
+          var totalHours = +currHours + +newHours;
+          snapshot.ref
+          .set(totalHours)
+          .then(function(){
+            alert("Successfully Logged Hours");
+            window.location.replace("dashboard.html");
+          },function(error){
+            alert("Error: "+error);
+          });
+        },function(error){
+          alert("Error: "+error);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Log Hours</p>
+    <br>
+    <form id="logHoursForm">
+      Opportunity:<br>
+      <select id="opportunities"></select><br><br>
+      Hours:<br>
+      <input type="text" name="hours"><br><br>
+      <br>
+      <input type="button" value="Submit" onclick="logHours()">
+    </form>
+
+  </body>
+
+</html>

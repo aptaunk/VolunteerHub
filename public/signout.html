@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+        <script src="scripts/firebase_init.js"></script>
+        <script>
+          firebase.auth()
+          .signOut()
+          .then(function(){
+            alert("Successfully Signed Out");
+            window.location.replace("index.html");
+          },function(error){
+            alert("Error: "+error);
+          });
+        </script>
+
+    </head>
+
+</html>

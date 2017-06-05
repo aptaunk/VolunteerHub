@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      function createOpportunity() {
+        firebase.database().ref("opportunities")
+        .push({
+          description: $("#opportunityForm input[name='description']").val()
+        }).then(function(){
+          alert("New Opportunity Created");
+          window.location.replace("index.html");
+        },function(error){
+          alert("Error: "+error);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Create Opportunity</p>
+    <br>
+    <form id="opportunityForm">
+      Description:<br>
+      <input type="text" name="description"><br><br>
+      <br>
+      <input type="button" value="Submit" onclick="createOpportunity()">
+    </form>
+
+  </body>
+
+</html>

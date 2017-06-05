@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/firebase_init.js"></script>
+    <script>
+      function signin() {
+        var email = $( "#signInForm input[name='email']" ).val();
+        var password = $( "#signInForm input[name='password']" ).val();
+        firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(function(user){
+          alert("Sign In Successful.");
+          window.location.replace("dashboard.html");
+        },function(error) {
+          alert("Error: "+error);
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1><a href="index.html">Volunteer Hub</a></h1>
+    <br>
+    <p>Sign In</p>
+    <br>
+    <form id="signInForm">
+      Email:<br>
+      <input type="email" name="email"><br><br>
+      Password:<br>
+      <input type="password" name="password"><br><br>
+      <br>
+      <input type="button" value="Submit" onclick="signin()">
+    </form>
+
+  </body>
+
+</html>
